@@ -64,14 +64,10 @@ def place_ship():
                 ships.remove(ship)
                 counter-=1
 
-
 #Call the function to fill the board
-
-print(board_clean)
 
 place_ship()
 
-print (board_clean)
 # Draw the board
 def draw_board(desk):
     c = 0
