@@ -5,15 +5,18 @@ import random
 # Variables
 
 board = []
+board_clean = []
 ships = [4,3,3,2,2,2,1,1,1,1]
 
 # Creating a clean board, made of 10 empty nested lists
 
 for i in range(10):
     board.append([])
+    board_clean.append([])
 for i in board:
     for j in range(10):
         board[j].append('O')
+        board_clean[j].append('O')
 
 # Function to check the position of the ship and to place it
 
@@ -64,21 +67,24 @@ def place_ship():
 
 #Call the function to fill the board
 
+print(board_clean)
+
 place_ship()
 
-# Draw the filled board
-def draw_filled_board():
+print (board_clean)
+# Draw the board
+def draw_board(desk):
     c = 0
     print(' ', end = '')
     print(''.join('{:>3}'.format(str(i)) for i in range(10)))
-    for i in board:
+    for i in desk:
         print (c, end = '')
         c+=1
         for j in i:
             print('{:>3}'.format(j), end = '')
         print()
 
-draw_filled_board()
+draw_board(board_clean)
 
 # Function for the game
 
@@ -89,8 +95,12 @@ def game():
         if board[int(user_shotX)][int(user_shotY)]=='S':
             print('HIT')
             score+=1
+            board_clean[int(user_shotX)][int(user_shotY)]='X'
+            draw_board(board_clean)
         else:
             print('miss((')
+            board_clean[int(user_shotX)][int(user_shotY)]='*'
+            draw_board(board_clean)
     print('YOU WIN')
 
 # Start the game
