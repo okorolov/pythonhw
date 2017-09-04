@@ -35,6 +35,8 @@ class Developer(Employee):
 class Designer(Employee):
     def __init__(self, first_name, second_name, salary, experience, manager, coefficient):
         super().__init__(first_name, second_name, salary, experience, manager)
+        if self.experience > 5: self.salary=self.salary*1.2+500
+        elif self.experience > 2: self.salary+=200
         self.coefficient = coefficient
 
     def get_salary(self):
@@ -50,16 +52,24 @@ class Manager(Employee):
             self.list_employees = list_employees
 
     def get_salary(self):
+        counter = 0
+        if self.experience > 5: self.salary=self.salary*1.2+500
+        elif self.experience > 2: self.salary+=200
         if len(self.list_employees)>10:self.salary+=500
         elif len(self.list_employees)>5:self.salary+=200
-        if len(list([lambda empl: type(empl) is Developer, self.list_employees])) > len(self.list_employees) / 2:self.salary=self.salary*1.1
+        for body_type in self.list_employees:
+            if type(body_type) is Developer:counter+=1
+        if counter>len(self.list_employees)//2:
+            self.salary=self.salary*1.1
         return self.salary
 
+Tony = Manager('Tony', 'Stark', 9000, 3, None, None)
 Bruce = Manager('Bruce', 'Wayne', 10000, 4, None, None)
 Diana = Developer('Diana', 'Prince', 5000, 6, Bruce)
-Frank = Designer('Mark', 'Rufalo', 600, 3, 'Tony', 10)
-Tony = Manager('Tony', 'Stark', 9000, 3, None, [Frank])
-Bruce = Manager('Bruce', 'Wayne', 10000, 4, None, [Diana])
+Barry = Developer('Barry', 'Allen', 4000, 4, Bruce)
+Mark = Designer('Mark', 'Rufalo', 600, 3, Tony, 2)
+Bruce = Manager('Bruce', 'Wayne', 10000, 4, None, [Diana,Barry])
+Tony = Manager('Tony', 'Stark', 9000, 3, None, [Mark])
 
 myDep = Department(Bruce, Tony)
 myDep.give_salary()
